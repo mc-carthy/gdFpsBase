@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="fpsBase"
-run/main_scene="res://player/Player.tscn"
+run/main_scene="res://levels/game.tscn"
 config/icon="res://icon.png"
 
 [input]
@@ -76,6 +76,12 @@ look_left={
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":-1.0,"script":null)
  ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Player"
+3d_physics/layer_2="Enemy"
+3d_physics/layer_3="World"
 
 [physics]
 
