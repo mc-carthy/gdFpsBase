@@ -37,6 +37,7 @@ func _physics_process(delta: float) -> void:
 	apply_movement(direction, delta)
 	apply_gravity(delta)
 	apply_friction(direction, delta)
+	apply_controller_rotation()
 	# Move this jump functionality into input function
 	jump()
 	velocity = move_and_slide_with_snap(velocity, snap_vector, Vector3.UP, true, 4, 0.7)
@@ -82,3 +83,12 @@ func jump() -> void:
 
 func update_snap_vector() -> void:
 	snap_vector = -get_floor_normal() if is_on_floor() else Vector3.DOWN
+
+func apply_controller_rotation() -> void:
+	var axis_vector = Vector2.ZERO
+	axis_vector.x = Input.get_action_strength("look_right") - Input.get_action_strength("look_left")
+	axis_vector.y = Input.get_action_strength("look_down") - Input.get_action_strength("look_up")
+
+	if InputEventJoypadMotion:
+		rotate_y(deg2rad(-axis_vector.x * controller_sensitivity))
+		head.rotate_x(deg2rad(-axis_vector.y * controller_sensitivity))
