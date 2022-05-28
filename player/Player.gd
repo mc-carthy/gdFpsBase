@@ -39,7 +39,7 @@ func _physics_process(delta: float) -> void:
 	apply_friction(direction, delta)
 	# Move this jump functionality into input function
 	jump()
-	velocity = move_and_slide(velocity, Vector3.UP)
+	velocity = move_and_slide_with_snap(velocity, snap_vector, Vector3.UP, true, 4, 0.7)
 
 func get_input_vector() -> Vector3:
 	var input_vector: Vector3 = Vector3.ZERO
@@ -75,6 +75,10 @@ func apply_gravity(delta: float) -> void:
 
 func jump() -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
+		snap_vector = Vector3.ZERO
 		velocity.y = jump_impulse
 	if Input.is_action_just_released("jump") and velocity.y > jump_impulse / 2:
 		velocity.y = jump_impulse / 2
+
+func update_snap_vector() -> void:
+	snap_vector = -get_floor_normal() if is_on_floor() else Vector3.DOWN
